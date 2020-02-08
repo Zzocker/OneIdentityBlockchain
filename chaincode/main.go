@@ -1,6 +1,9 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
+
 	"github.com/hyperledger/fabric-chaincode-go/shim"
 	"github.com/hyperledger/fabric-protos-go/peer"
 )
@@ -9,9 +12,14 @@ type Chaincode struct {
 }
 
 // bcFunctions
-const bcFunction = map[string]func(shim.ChaincodeStubInterface, []string) peer.Response{
-	"get_dob_cert_fileName" :getDOBCert,
-	"createIdentity" : createIdentity
+var bcFunction = map[string]func(shim.ChaincodeStubInterface, []string) peer.Response{
+	"get_dob_cert_fileName": getDOBCert,
+	"responRequest":         responRequest,
+	"verifyPersonal":        verifyPersonal,
+	"addQualification":      addQualification,
+	"getPersonal" : getPersonal,
+	"getEduc": getEduc,
+	"getHealthc": getHealthc,
 }
 
 func (c *Chaincode) Init(stub shim.ChaincodeStubInterface) peer.Response {
@@ -28,6 +36,50 @@ func (c *Chaincode) Invoke(stub shim.ChaincodeStubInterface) peer.Response {
 func main() {
 	err := shim.Start(new(Chaincode))
 	if err != nil {
+		fmt.Println(err.Error())
+	}
+}
+
+func getPersonal(stub shim.ChaincodeStubInterface, args []string) peer.Response {
+	// [0]=IKey
+	if len(args) != 1 {
+		return shim.Error("please Provide IKey")
+	}
+	DByet, err := getState(stub, args[0])
+	if err != nil {
 		return shim.Error(err.Error())
 	}
+	var identity Identity
+	json.Unmarshal(DByet, &identity)
+	DByet, _ = getState(stub, identity.PersonalDetails)
+	return shim.Success(DByet)
+}
+func getEduc(stub shim.ChaincodeStubInterface,args []string)peer.Response  {
+	// [0]=IKey
+	if len(args) != 1 {
+		return shim.Error("please Provide IKey")
+	}
+	DByet, err := getState(stub, args[0])
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	var identity Identity
+	json.Unmarshal(DByet, &identity)
+	DByet, _ = getState(stub, identity.EducationDetails)
+	return shim.Success(DByet)
+	
+}
+func getHealthc(stub shim.ChaincodeStubInterface,args []string)peer.Response  {
+	// [0]=IKey
+	if len(args) != 1 {
+		return shim.Error("please Provide IKey")
+	}
+	DByet, err := getState(stub, args[0])
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	var identity Identity
+	json.Unmarshal(DByet, &identity)
+	DByet, _ = getState(stub, identity.HealthDetails)
+	return shim.Success(DByet)
 }
