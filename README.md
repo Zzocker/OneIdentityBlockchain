@@ -1,14 +1,14 @@
-# Book-Sharing-fabric
+# One Person,One Identity on Blockchain
 
 ## Overview
-As most of us know that hard-copy books are very costly and 
-in college,there is always some student who has a certain book that is needed by another student.
-In this project,we are trying to build a decentralized platform for students to share their books
+Maintaing digital identity of person is very difficult for central server, in this current digital world where every one are concerned with there privicy.</br>
+So, to solve this problem and verious problem faced in aaddhar system I am using a private blockchain maintained by government organizations. This project also slove the problem of multiple KYC.
+ 
 
 ## Features
-1. owner of book can track his/her book in realtime.
-2. Books will be secured using the fabric network.
-3. The owner can remove his/her book from the platform.
+1. Person have to do KYC only once
+2. The certain fields of identity will only be accessed based upon the orgainzation/client authorization done using OAuth.
+3. Education , Personal and Health fields can be accessed by client
 
 # Blockchain
 # Start The network
