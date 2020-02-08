@@ -18,13 +18,13 @@ func getDOBCert(stub shim.ChaincodeStubInterface, args []string) peer.Response {
 	id := uuid.New().String()
 	dob := DoB{
 		DOBDetails: HealthReport{
-			DocType: DOB,
-			ID:      id,
-			Doctor:  args[5],
-			Type:    "DOB",
+			DocType:   DOB,
+			ID:        id,
+			Doctor:    args[5],
+			Type:      "DOB",
+			IssueTime: time.Now().Unix(),
 		},
-		DOB:       args[6],
-		IssueTime: time.Now().Unix(),
+		DOB: args[6],
 	}
 	DByte, _ := json.Marshal(dob)
 	err := stub.PutState(id, DByte)
@@ -42,7 +42,7 @@ func getDOBCert(stub shim.ChaincodeStubInterface, args []string) peer.Response {
 		ID:      HKey,
 		Reports: make(map[string]string),
 	}
-	health.Reports["DoB_cert"]=id
+	health.Reports["DoB_cert"] = id
 	personal := Personal{
 		DocType:  PERSONAL,
 		ID:       PKey,
@@ -53,7 +53,7 @@ func getDOBCert(stub shim.ChaincodeStubInterface, args []string) peer.Response {
 		Parent:   args[4],
 		Status:   "0",
 		Photo:    uuid.New().String(),
-		DOB: args[6],
+		DOB:      args[6],
 	}
 	education := Education{
 		DocType:       EDUCATION,
@@ -104,4 +104,35 @@ func getDOBCert(stub shim.ChaincodeStubInterface, args []string) peer.Response {
 	}
 	output, _ := json.Marshal(result)
 	return shim.Success(output)
+}
+
+func addReports(stub shim.ChaincodeStubInterface, args []string) peer.Response {
+	//IKey[0],Doctor[1],Type[2]
+	DByte, err := getState(stub, args[0])
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	var identity Identity
+	json.Unmarshal(DByte, &identity)
+	DByte, _ = getState(stub, identity.HealthDetails)
+	var healthDet Health
+	json.Unmarshal(DByte, &healthDet)
+	id := uuid.New().String()
+	put := HealthReport{
+		DocType:   HEALTHREPORT,
+		ID:        id,
+		Doctor:    args[1],
+		Type:      args[2],
+		IssueTime: time.Now().Unix(),
+	}
+	healthDet.Reports[args[2]] = id
+
+	DByte, _ = json.Marshal(healthDet)
+	stub.PutState(healthDet.ID, DByte)
+
+	DByte, _ = json.Marshal(put)
+	stub.PutState(put.ID, DByte)
+
+	
+	return shim.Success(nil)
 }

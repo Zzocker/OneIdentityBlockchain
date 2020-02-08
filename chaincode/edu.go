@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	
+
 	"time"
 
 	"github.com/google/uuid"
@@ -38,5 +38,11 @@ func addQualification(stub shim.ChaincodeStubInterface, args []string) peer.Resp
 
 	DByte, _ = json.Marshal(educationDet)
 	stub.PutState(educationDet.ID, DByte)
-	return shim.Success(nil)
+	result := struct {
+		Key string
+	}{
+		Key: educationDet.ID,
+	}
+	DByte, _ = json.Marshal(result)
+	return shim.Success(DByte)
 }

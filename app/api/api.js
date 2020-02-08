@@ -1,6 +1,7 @@
 const express = require('express')
 const routes = require('./uidai')
 const hosroutes = require('./hosroutes')
+const quali = require('./educ')
 
 const PORT = "8888"
 const api = express()
@@ -13,6 +14,7 @@ api.use(express.json())
 api.use(logger)
 api.use('/uidai',routes)
 api.use('/hospital',hosroutes)
+api.use('/quali',quali)
 api.listen(PORT,()=>{
     console.log(`Listening on port : ${PORT}`)
 })

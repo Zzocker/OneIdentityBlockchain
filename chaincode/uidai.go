@@ -5,6 +5,7 @@ import (
 	. "fmt"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
+	"github.com/hyperledger/fabric-protos-go/ledger/queryresult"
 	"github.com/hyperledger/fabric-protos-go/peer"
 )
 
@@ -77,6 +78,33 @@ func verifyPersonal(stub shim.ChaincodeStubInterface, args []string) peer.Respon
 	personal.Status = "1"
 	PByte, _ = json.Marshal(personal)
 	stub.PutState(personal.ID, PByte)
+	delete(identity.Requests, args[0])
+	PByte, _ = json.Marshal(identity)
+	stub.PutState(identity.ID, PByte)
 	stub.DelState(args[0])
 	return shim.Success([]byte("Success!! Person verified"))
+}
+func ExecuteRichQuery(stub shim.ChaincodeStubInterface,args []string)peer.Response{
+	if len(args)!=1{
+		return shim.Error("Please Provide Query json")
+	}
+	qry := args[0]
+	var output []Request
+	QryIterator , err := stub.GetQueryResult(qry)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	for QryIterator.HasNext(){
+		var resultKV *queryresult.KV
+		var err error
+		resultKV,err= QryIterator.Next()
+		if err != nil {
+			return shim.Error(err.Error())
+		}
+		var temp Request
+		json.Unmarshal(resultKV.GetValue(),&temp)
+		output = append(output,temp)
+	}
+	result ,_:= json.Marshal(output)
+	return shim.Success(result)
 }

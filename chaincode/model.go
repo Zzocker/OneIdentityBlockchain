@@ -12,20 +12,20 @@ const (
 )
 
 type Health struct {
-	DocType string           `json:"docType"`
-	ID      string           `json:"id"`
+	DocType string            `json:"docType"`
+	ID      string            `json:"id"`
 	Reports map[string]string `json:"reports"` // reports UUID of Recipts pic => epoch time
 }
 type HealthReport struct {
-	DocType string `json:"docType"`
-	ID      string `json:"id"`          // key of image in BC
-	Doctor  string `json:"doctor_name"` // Doctor signed by
-	Type    string `json:"type_report"` // which type of health report it is dob, injury
+	DocType   string `json:"docType"`
+	ID        string `json:"id"`          // key of image in BC
+	Doctor    string `json:"doctor_name"` // Doctor signed by
+	Type      string `json:"type_report"` // which type of health report it is dob, injury
+	IssueTime int64  `json:"issue_time"`
 }
 type DoB struct {
 	DOBDetails HealthReport `json:"dob_details"`
 	DOB        string       `json:"dob"`
-	IssueTime  int64        `json:"issue_time"`
 }
 type Education struct {
 	DocType       string            `json:"docType"`
@@ -35,7 +35,7 @@ type Education struct {
 type Qualification struct {
 	DocType   string `json:"docType"`
 	ID        string `json:"id"` // Qualification link
-	IssueTime int64 `json:"issue_time"`
+	IssueTime int64  `json:"issue_time"`
 	Status    string `json:"status"` // verified = 1 not verified =0
 }
 type Personal struct {
