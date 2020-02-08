@@ -59,10 +59,8 @@ Route | Method| Description
 ## Language and Technology in use
 1. Golang
 2. Docker
-3. CSS/HTML
-4. Javascript
-5. Nodejs
-6. Hyperledger Fabric
+3. Nodejs
+4. Hyperledger Fabric
 
 
 # License
