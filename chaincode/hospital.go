@@ -132,7 +132,11 @@ func addReports(stub shim.ChaincodeStubInterface, args []string) peer.Response {
 
 	DByte, _ = json.Marshal(put)
 	stub.PutState(put.ID, DByte)
-
-	
-	return shim.Success(nil)
+	result := struct {
+		Id string
+	}{
+		Id: id,
+	}
+	DByte, _ = json.Marshal(result)
+	return shim.Success(DByte)
 }

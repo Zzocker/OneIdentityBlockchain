@@ -52,9 +52,8 @@ type Personal struct {
 }
 
 type Identity struct {
-	DocType string `json:"docType"`
-	ID      string `json:"id"`
-	// keys of Pe,Ed,He
+	DocType          string            `json:"docType"`
+	ID               string            `json:"id"`
 	PersonalDetails  string            `json:"personal_details"`
 	EducationDetails string            `json:"education_etails"`
 	HealthDetails    string            `json:"health_details"`

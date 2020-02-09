@@ -24,11 +24,13 @@ routes.get('/user/me/Health',async (req,res)=>{
     try {
         const contract = await network.contract()
         const response = await contract.evaluateTransaction("getHealthc",req.body.i_key)
-        res.status(200).json({   
+        res.status(200).json({  
+            status: 200, 
             result: JSON.parse(response)
         })
     } catch (error) {
         res.status(500).json({
+            status: 500,
             msg: error.message
         })
     }
@@ -38,10 +40,12 @@ routes.post('/admin/addreports',async (req,res)=>{
         const contract = await network.contract()
         const response = await contract.submitTransaction("addHealthReports",req.body.i_key,req.body.doctor,req.body.type)
         res.status(200).json({   
-            result: "Success"
+            status: 200,
+            result: JSON.parse(response)
         })
     } catch (error) {
         res.status(500).json({
+            status: 500,
             msg: error.message
         })
     }

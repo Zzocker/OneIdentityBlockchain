@@ -17,14 +17,14 @@ var bcFunction = map[string]func(shim.ChaincodeStubInterface, []string) peer.Res
 	"responRequest":         responRequest,
 	"verifyPersonal":        verifyPersonal,
 	"addQualification":      addQualification,
-	"getPersonal" : getPersonal,
-	"getEduc": getEduc,
-	"getHealthc": getHealthc,
-	"getStateByte":getStateByte,
-	"addHealthReports" : addReports,
-	"ExecuteRichQuery": ExecuteRichQuery,
+	"getPersonal":           getPersonal,
+	"getEduc":               getEduc,
+	"getHealthc":            getHealthc,
+	"getStateByte":          getStateByte,
+	"addHealthReports":      addReports,
+	"ExecuteRichQuery":      ExecuteRichQuery,
 	/*
-	change name,address
+		change name,address
 	*/
 }
 
@@ -45,7 +45,7 @@ func main() {
 		fmt.Println(err.Error())
 	}
 }
-func getStateByte(stub shim.ChaincodeStubInterface,args []string) peer.Response{
+func getStateByte(stub shim.ChaincodeStubInterface, args []string) peer.Response {
 	// [0]=IKey
 	if len(args) != 1 {
 		return shim.Error("please Provide IKey")
@@ -70,7 +70,7 @@ func getPersonal(stub shim.ChaincodeStubInterface, args []string) peer.Response 
 	DByet, _ = getState(stub, identity.PersonalDetails)
 	return shim.Success(DByet)
 }
-func getEduc(stub shim.ChaincodeStubInterface,args []string)peer.Response  {
+func getEduc(stub shim.ChaincodeStubInterface, args []string) peer.Response {
 	// [0]=IKey
 	if len(args) != 1 {
 		return shim.Error("please Provide IKey")
@@ -83,9 +83,9 @@ func getEduc(stub shim.ChaincodeStubInterface,args []string)peer.Response  {
 	json.Unmarshal(DByet, &identity)
 	DByet, _ = getState(stub, identity.EducationDetails)
 	return shim.Success(DByet)
-	
+
 }
-func getHealthc(stub shim.ChaincodeStubInterface,args []string)peer.Response  {
+func getHealthc(stub shim.ChaincodeStubInterface, args []string) peer.Response {
 	// [0]=IKey
 	if len(args) != 1 {
 		return shim.Error("please Provide IKey")
@@ -99,4 +99,3 @@ func getHealthc(stub shim.ChaincodeStubInterface,args []string)peer.Response  {
 	DByet, _ = getState(stub, identity.HealthDetails)
 	return shim.Success(DByet)
 }
-

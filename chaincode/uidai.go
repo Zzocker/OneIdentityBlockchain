@@ -84,27 +84,27 @@ func verifyPersonal(stub shim.ChaincodeStubInterface, args []string) peer.Respon
 	stub.DelState(args[0])
 	return shim.Success([]byte("Success!! Person verified"))
 }
-func ExecuteRichQuery(stub shim.ChaincodeStubInterface,args []string)peer.Response{
-	if len(args)!=1{
+func ExecuteRichQuery(stub shim.ChaincodeStubInterface, args []string) peer.Response {
+	if len(args) != 1 {
 		return shim.Error("Please Provide Query json")
 	}
 	qry := args[0]
 	var output []Request
-	QryIterator , err := stub.GetQueryResult(qry)
+	QryIterator, err := stub.GetQueryResult(qry)
 	if err != nil {
 		return shim.Error(err.Error())
 	}
-	for QryIterator.HasNext(){
+	for QryIterator.HasNext() {
 		var resultKV *queryresult.KV
 		var err error
-		resultKV,err= QryIterator.Next()
+		resultKV, err = QryIterator.Next()
 		if err != nil {
 			return shim.Error(err.Error())
 		}
 		var temp Request
-		json.Unmarshal(resultKV.GetValue(),&temp)
-		output = append(output,temp)
+		json.Unmarshal(resultKV.GetValue(), &temp)
+		output = append(output, temp)
 	}
-	result ,_:= json.Marshal(output)
+	result, _ := json.Marshal(output)
 	return shim.Success(result)
 }
