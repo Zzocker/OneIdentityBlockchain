@@ -1,8 +1,15 @@
 # One Person,One Identity on Blockchain
 
 ## Overview
-Maintaing digital identity of person is very difficult for central server, in this current digital world where every one are concerned with there privicy.</br>
-So, to solve this problem and verious problem faced in aaddhar system I am using a private blockchain maintained by government organizations. This project also slove the problem of multiple KYC.
+Maintaining the digital identity of a person is very difficult for a central server, in this current digital world where everyone is concerned with there privacy.
+So, to solve this problem and various problems faced in aaddhar system this project is using a private blockchain maintained by government organizations. This project also solves the problem of multiple KYC.
+
+In this Project, the identity of a person will be divided into various fields, fields like education, health,  Personal details, etc.  education field will contain all the details of education details like certificates pictures. and also the education field can be updated and view only by the organization which is concerned with education, organizations like IIT, CBSE, etc.
+
+The images will be stored on a local database with the filename as digital signature of a person.
+
+What new in this project:-
+This project will remove the single point of failure, by distributing the fields of identity among assigned organizations.
  
 
 ## Features
